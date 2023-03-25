@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { APP_LOAD } from "../actions";
+import { APP_LOAD, USER_LIST } from "../actions";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("first name is required"),
@@ -43,10 +43,10 @@ const SignUp = () => {
         localStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("token", true);
         dispatch({ type: APP_LOAD, payload: { token: true, user: data } });
+        dispatch({type: USER_LIST, payload: [...users, data]})
         navigate("/");
       }
     } else {
-      console.log("data", data);
       localStorage.setItem("users", JSON.stringify([data]));
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("token", true);
